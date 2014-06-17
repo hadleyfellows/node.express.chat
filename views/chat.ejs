@@ -1,0 +1,192 @@
+<html>
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Lato:900' rel='stylesheet' type='text/css'>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+
+  $(document).ready(function(){
+        io = io.connect();
+        $('#former').hide();
+        $('#former2').hide();
+
+        // Send the ready event.
+          //io.emit('ready');
+
+
+        // form submission
+
+            // name submission
+            $('#name_form').submit(function(event){
+              $('#former').show();
+              $('#name_form').hide();
+              $('#success').html('<p>' + $('#my_name').val() +'</p>');
+              
+              io.emit('got_a_new_user', {name: $('#my_name').val() });
+              return false;
+            });
+            // name submission 2
+            $('#name_form2').submit(function(event){
+              $('#former2').show();
+              $('#name_form2').hide();
+              $('#success2').html('<p>' + $('#my_name2').val() +'</p>');
+              
+              io.emit('got_a_new_user', {name: $('#my_name2').val() });
+              return false;
+            });
+
+            // message submission
+            $('#former').submit(function(event){
+              io.emit('ready', { message: $('#message').val() });
+              return false;
+            });
+            // message submission 2
+            $('#former2').submit(function(event){
+              io.emit('ready', { message: $('#message2').val() });
+              return false;
+            });
+
+            // reset chat room
+            $('#reset-chat').click(function(event){
+              //io.emit('ready', { message: $('#message').val() });
+              $('#former').hide();
+              $('#name_form').show();
+              $('#messages').html("");
+              $('#former #message').val("");
+              $('#my_name').val("");
+              $('#success').html("");
+              console.log("reset");
+              return false;
+            });
+            $('#reset-chat2').click(function(event){
+              //io.emit('ready', { message: $('#message').val() });
+              $('#former2').hide();
+              $('#name_form2').show();
+              $('#messages2').html("");
+              $('#former2 #message2').val("");
+              $('#my_name2').val("");
+              $('#success2').html("");
+              console.log("reset");
+              return false;
+            });
+
+        // form submission
+
+        // key events
+            // key down?
+            $('#former #message').focusin(function(){
+              io.emit('typing', {name: $('#my_name').val() });
+              return false;
+            });
+            // key down?
+            // key up?
+            $('#former #message').focusout(function(){
+              io.emit('not_typing', {name: $('#my_name').val() });
+              return false;
+            });
+            // key up?
+
+
+            // key down? 2
+            $('#former2 #message2').focusin(function(){
+              io.emit('typing', {name: $('#my_name2').val() });
+              return false;
+            });
+            // key down? 2
+
+            // key up? 2
+            $('#former2 #message2').focusout(function(){
+              io.emit('not_typing', {name: $('#my_name2').val() });
+              return false;
+            });
+            // key up? 2
+
+        // key events
+
+
+        // Listen for the new visitor event.
+
+        io.on('typer', function(yep) {
+          //$('#former #message').val("");
+          $('#typing').html( yep.name +' is typing...');
+          $('#typing2').html( yep.name +' is typing...');
+          //$('#messages').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+        });
+
+        io.on('non_typer', function(yep) {
+          //$('#former #message').val("");
+          $('#typing').html('');
+          $('#typing2').html('');
+          //$('#messages').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+        });
+
+        io.on('new visitor', function(yep) {
+          $('#former #message').val("");
+          // $('#typing').html('');
+          $('#messages').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+          console.log(yep);
+          $('#former2 #message2').val("");
+          // $('#typing').html('');
+          $('#messages2').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+          console.log(yep);
+        });
+
+        io.on('new_user', function(yep) {
+          //$('#success').html('<p>' + yep.name +'</p>');
+
+          // $('#forms').html('<form id="former"><p>Enter a message:</p><input type="text" id="message" name="message" placeholder="Message" /><input type="submit" value="Submit" /></form>');
+          console.log(yep);
+        });
+
+        // Listen for the new visitor event.
+
+  });
+  </script>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+
+</head>
+<body>
+    <div id="wrapper">
+      <div id="outer-messages">
+        <div id="messages"></div>
+      </div>
+      <div id="typing"></div>  
+
+        <div id="forms">
+          <form id="name_form">
+            <!-- <p>Please enter your name</p>  -->
+            <input type="text" id="my_name" name="my_name" placeholder="Please enter your name" />
+            <button type="submit" value="Submit" />Submit</button>
+          </form>
+          <form id="former">
+            <label for="message"><div id="success"></div></label><input type="text" id="message" name="message" placeholder="Message" />
+            <button type="submit" value="Submit" />Submit</button>
+          </form>
+          <button id="reset-chat">CHAT RESET</button>
+    </div>
+
+  <div id="desk">
+    <div id="wrapper2">
+      <div id="outer-messages2">
+        <div id="messages2"></div>
+      </div>
+      <div id="typing2"></div>  
+
+        <div id="forms2">
+          <form id="name_form2">
+            <!-- <p>Please enter your name</p>  -->
+            <input type="text" id="my_name2" name="my_name" placeholder="Please enter your name" />
+            <button type="submit" value="Submit" />Submit</button>
+          </form>
+          <form id="former2">
+            <label for="message"><div id="success2"></div></label><input type="text" id="message2" name="message" placeholder="Message" />
+            <button type="submit" value="Submit" />Submit</button>
+          </form>
+          <button id="reset-chat2">CHAT RESET</button>
+    </div>
+  </div>
+
+
+    </body>
+</html>

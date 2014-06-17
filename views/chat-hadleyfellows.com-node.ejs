@@ -1,0 +1,100 @@
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="/node/socket.io/socket.io.js"></script>
+  <script>
+
+  $(document).ready(function(){
+        io = io.connect();
+        $('#former').hide();
+        // Send the ready event.
+          //io.emit('ready');
+
+
+        // form submission
+
+        $('#former').submit(function(event){
+          io.emit('ready', { message: $('#message').val() });
+          return false;
+        });
+
+        $('#name_form').submit(function(event){
+        $('#former').show();
+        $('#name_form').hide();
+          io.emit('got_a_new_user', {name: $('#my_name').val() });
+          return false;
+        });
+        // form submission
+
+        // key down?
+        $('#former #message').focusin(function(){
+          io.emit('typing', {name: $('#my_name').val() });
+          return false;
+        });
+        // key down?
+        // key up?
+        $('#former #message').focusout(function(){
+          io.emit('not_typing', {name: $('#my_name').val() });
+          return false;
+        });
+        // key up?
+
+        // Listen for the new visitor event.
+
+        io.on('typer', function(yep) {
+          //$('#former #message').val("");
+          $('#typing').html( yep.name +' is typing...');
+          //$('#messages').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+        });
+
+        io.on('non_typer', function(yep) {
+          //$('#former #message').val("");
+          $('#typing').html('');
+          //$('#messages').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+        });
+
+        io.on('new visitor', function(yep) {
+          $('#former #message').val("");
+          $('#typing').html('');
+          $('#messages').append('<div class="box" id="'+yep.sess+'"><p>' + yep.name +':  ' + yep.message +'</p></div>');
+        });
+
+        io.on('new_user', function(yep) {
+          $('#success').html('<p>' + yep.name +'</p>');
+          // $('#forms').html('<form id="former"><p>Enter a message:</p><input type="text" id="message" name="message" placeholder="Message" /><input type="submit" value="Submit" /></form>');
+        });
+
+        // Listen for the new visitor event.
+
+  });
+  </script>
+  <link rel="stylesheet" href="/node/stylesheets/style.css">
+
+</head>
+<body>
+    <div id="wrapper">
+      <div id="messages"></div>
+      <div id="typing"></div>  
+     <% if(session_data.sessionID)
+         { %>
+          <%=session_data.name %>
+          <form id="former">
+            <input type="text" id="message" name="message" placeholder="Message" />
+            <input type="submit" value="Submit" />
+          </form>
+      <% } else{ %>   
+        <div id="forms">
+          <form id="name_form">
+            Please enter your name:
+            <input type="text" id="my_name" name="my_name" placeholder="Name" />
+            <input type="submit" value="Submit" />
+          </form>
+          <form id="former">
+            <label for="message"><div id="success"></div></label><input type="text" id="message" name="message" placeholder="Message" />
+            <input type="submit" value="Submit" />
+          </form>
+
+      <% } %> 
+    </div>
+  </body>
+</html>

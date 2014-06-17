@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>Survey 2</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+             
+          io = io.connect();
+          // Listen for the deliver_ice_cream event
+          io.on('form_submit_leg2', function(stuff) {
+              console.log(stuff.name);
+              console.log(stuff.email);
+                 console.log('Received ice cream! It came with the following stuff:', stuff);
+                 $('#wrapper #success').html('You emmitted the following information to the server: ');
+
+                 $.each(stuff, function(index, value) {
+                    $('#wrapper #success').append(index+" : "+value+" ");
+                  });
+                 var lnumber = Math.floor((Math.random()*10000)+1);
+                 $('#wrapper #success').append("<br> Your lucky number emmitted by the server is "+lnumber+" !");
+          });
+
+          $('#former').submit(function(event){
+
+          // console.log( $('#email').val()   );
+          //  console.log( $('#my_name').val()   );
+// $('#former > input,#former > textarea').each(function(index) {
+//     console.log($(this).attr('name') + " = " + $(this).val());
+// });
+
+
+             io.emit('form_submit_leg1', {email: $('#email').val(), name: $('#my_name').val() });
+             return false;
+          });
+
+
+        });
+    </script>
+  </head>
+
+  <body>
+    <p>Survey 2</p>   
+    <% if(session_data.sessionID)
+       { %>
+        <p><%= session_data.email %></p>
+        <p><%= session_data.name %></p>
+         <p><%= "Thanks for submitting your form. The information you submitted is Email: " + session_data.email + ", Name: " + session_data.name %></p>
+    <% } %>  
+    <div id="wrapper">
+      <div id="success"></div>
+      <form id="former">
+        <input type="text" id="email" name="email" placeholder="Email" />
+        <input type="text" id="my_name" name="my_name" placeholder="Name" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,152 @@
+body {
+  padding: 0;
+  margin: 0;
+  font: 40px;
+  font-family: 'Lato', sans-serif;
+  color: #FFF;
+}
+form
+{
+	margin: 0;
+	padding: 0;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.box{
+	width: 100%;
+	/*background: #9FF7AE;*/
+	margin: 5px;
+}
+#desk
+{
+	margin-top: 300px;
+}
+#outer-messages, #outer-messages2
+{
+	width: auto;
+	height: auto;
+	margin: 0 auto;
+	display: block;
+	background: #FFF;
+	/*border-radius: 20px;*/
+	padding: 20px;
+
+}
+#messages
+{
+	background: #FFF;
+	height: 450px;
+	width: auto;
+	/*border: solid 1px #272822;*/
+	overflow-y: scroll;
+	overflow-x: hidden;
+	/*margin: 10px;*/
+	color: #000;
+	font-size: 40px;
+
+}
+#messages2
+{
+	background: #FFF;
+	height: 250px;
+	width: auto;
+	/*border: solid 1px #272822;*/
+	overflow-y: scroll;
+	overflow-x: hidden;
+	/*margin: 10px;*/
+	color: #000;
+	font-size: 20px;
+
+}
+
+#name_form, #name_form2
+{
+	margin: 10px 0;
+}
+#name_form input, #former input
+{
+		padding: 20px;
+		/* border-radius: 20px; */
+		width: 100%;
+		margin: 20px auto;
+		font-size: 50px;
+		display: block;
+		text-align: left;
+		border: 1px solid #161614;
+		/*box-shadow: inset 0px 0px 20px;*/
+		box-shadow: 2px 2px 5px #000;
+}
+#name_form2 input, #former2 input
+{
+		padding: 10px 20px;
+		/* border-radius: 20px; */
+		width: 100%;
+		margin: 20px auto;
+		font-size: 30px;
+		display: block;
+		text-align: left;
+		border: 1px solid #161614;
+		box-shadow: inset 0px 0px 10px;
+}
+
+#reset-chat, #former button, #forms button
+{
+
+							padding: 20px;
+							border: 1px solid #065890;
+							box-shadow: inset 0px 0px 20px #065890;
+							/* border-radius: 20px; */
+							width: 100%;
+							margin: 20px auto;
+							font-size: 50px;
+							background: linear-gradient(180deg, #378fc1, #065890);
+							display: block;
+							text-align: center;
+							color: #FFF;	
+							-webkit-box-shadow: none;
+							-moz-box-shadow: none;
+							box-shadow: none;
+							box-shadow: 2px 2px 5px #000;
+}
+#reset-chat2, #former2 button, #forms2 button
+{
+
+							padding: 10px 20px;
+							border: 1px solid #065890;
+							box-shadow: inset 0px 0px 20px #065890;
+							/* border-radius: 20px; */
+							width: 100%;
+							margin: 20px auto;
+							font-size: 30px;
+							background: linear-gradient(180deg, #378fc1, #065890);
+							display: block;
+							text-align: center;
+							color: #FFF;	
+							-webkit-box-shadow: none;
+							-moz-box-shadow: none;
+							box-shadow: none;
+							box-shadow: 2px 2px 5px #000;
+}
+#name_form p,
+#name_form2 p
+{
+	margin: 10px;
+}
+
+#forms,
+#forms2
+{
+	font-size: 40px;
+	line-height: 20px;
+	color: #18A4E7;
+}
+#typing,
+#typing2
+{
+	font-size: 30px;
+	padding: 20px 0 10px 0;
+}
+
